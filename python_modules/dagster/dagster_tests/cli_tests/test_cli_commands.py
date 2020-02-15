@@ -143,14 +143,14 @@ def test_list_command():
         {
             'repository_yaml': None,
             'python_file': None,
-            'module_name': 'dagster_examples.intro_tutorial.repos',
+            'module_name': 'dagster.tutorial.repos',
             'fn_name': 'define_repo',
         },
         no_print,
     )
 
     result = runner.invoke(
-        pipeline_list_command, ['-m', 'dagster_examples.intro_tutorial.repos', '-n', 'define_repo']
+        pipeline_list_command, ['-m', 'dagster.tutorial.repos', '-n', 'define_repo']
     )
     assert result.exit_code == 0
     assert result.output == (
@@ -202,7 +202,7 @@ def test_list_command():
             {
                 'repository_yaml': None,
                 'python_file': 'foo.py',
-                'module_name': 'dagster_examples.intro_tutorial.repos',
+                'module_name': 'dagster.tutorial.repos',
                 'fn_name': 'define_repo',
             },
             no_print,
@@ -210,7 +210,7 @@ def test_list_command():
 
     result = runner.invoke(
         pipeline_list_command,
-        ['-f', 'foo.py', '-m', 'dagster_examples.intro_tutorial.repos', '-n', 'define_repo'],
+        ['-f', 'foo.py', '-m', 'dagster.tutorial.repos', '-n', 'define_repo'],
     )
     assert result.exit_code == 2
 
@@ -219,13 +219,13 @@ def test_list_command():
             {
                 'repository_yaml': None,
                 'python_file': None,
-                'module_name': 'dagster_examples.intro_tutorial.repos',
+                'module_name': 'dagster.tutorial.repos',
                 'fn_name': None,
             },
             no_print,
         )
 
-    result = runner.invoke(pipeline_list_command, ['-m', 'dagster_examples.intro_tutorial.repos'])
+    result = runner.invoke(pipeline_list_command, ['-m', 'dagster.tutorial.repos'])
     assert result.exit_code == 2
 
     with pytest.raises(UsageError):
@@ -272,14 +272,14 @@ def valid_execute_args():
             'repository_yaml': None,
             'pipeline_name': ('hello_cereal_pipeline',),
             'python_file': None,
-            'module_name': 'dagster_examples.intro_tutorial.repos',
+            'module_name': 'dagster.tutorial.repos',
             'fn_name': 'define_repo',
         },
         {
             'repository_yaml': None,
             'pipeline_name': (),
             'python_file': None,
-            'module_name': 'dagster_examples.intro_tutorial.repos',
+            'module_name': 'dagster.tutorial.repos',
             'fn_name': 'hello_cereal_pipeline',
         },
         {
@@ -304,14 +304,8 @@ def valid_cli_args():
         ['-y', script_relative_path('repository_file.yaml'), 'foo'],
         ['-y', script_relative_path('repository_module.yaml'), 'hello_cereal_pipeline'],
         ['-f', script_relative_path('test_cli_commands.py'), '-n', 'define_bar_repo', 'foo'],
-        [
-            '-m',
-            'dagster_examples.intro_tutorial.repos',
-            '-n',
-            'define_repo',
-            'hello_cereal_pipeline',
-        ],
-        ['-m', 'dagster_examples.intro_tutorial.repos', '-n', 'hello_cereal_pipeline'],
+        ['-m', 'dagster.tutorial.repos', '-n', 'define_repo', 'hello_cereal_pipeline',],
+        ['-m', 'dagster.tutorial.repos', '-n', 'hello_cereal_pipeline'],
         ['-f', script_relative_path('test_cli_commands.py'), '-n', 'define_foo_pipeline'],
     ]
 

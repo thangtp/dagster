@@ -14,7 +14,7 @@ from dagster.utils import (
     DEFAULT_REPOSITORY_YAML_FILENAME,
     check_script,
     pushd,
-    script_relative_path,
+    file_relative_path,
 )
 
 PIPELINES_OR_ERROR_QUERY = '''{
@@ -34,7 +34,7 @@ PIPELINES_OR_ERROR_QUERY = '''{
 
 
 def path_to_tutorial_file(path):
-    return script_relative_path(os.path.join('../../dagster_examples/intro_tutorial/', path))
+    return file_relative_path(__file__, os.path.join('../../dagster/tutorial/', path))
 
 
 def load_dagit_for_repo_cli_args(n_pipelines=1, **kwargs):

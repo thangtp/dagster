@@ -40,7 +40,7 @@ def postgres(pg_hostname):  # pylint: disable=redefined-outer-name
         )
         return
 
-    script_path = script_relative_path('../airline_demo_tests/')
+    script_path = script_relative_path('../../../../examples/dagster_examples_tests/airline_demo_tests/')
 
     if not is_postgres_running():
         with pushd(script_path):

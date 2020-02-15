@@ -1,10 +1,10 @@
 import csv
 import os
 
-from dagster_examples.intro_tutorial.modes import SqlAlchemyPostgresWarehouse as sapw1
-from dagster_examples.intro_tutorial.modes import modes_pipeline
-from dagster_examples.intro_tutorial.presets import SqlAlchemyPostgresWarehouse as sapw2
-from dagster_examples.intro_tutorial.presets import presets_pipeline
+from dagster.tutorial.modes import SqlAlchemyPostgresWarehouse as sapw1
+from dagster.tutorial.modes import modes_pipeline
+from dagster.tutorial.presets import SqlAlchemyPostgresWarehouse as sapw2
+from dagster.tutorial.presets import presets_pipeline
 
 from dagster import RunConfig, execute_pipeline, execute_pipeline_with_preset
 from dagster.utils import pushd, script_relative_path

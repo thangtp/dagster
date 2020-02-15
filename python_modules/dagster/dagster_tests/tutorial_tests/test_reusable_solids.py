@@ -1,4 +1,4 @@
-from dagster_examples.intro_tutorial.reusable_solids import split_cereals
+from dagster.tutorial.reusable_solids import split_cereals
 
 from dagster import execute_solid
 

@@ -1,4 +1,4 @@
-from dagster_examples.intro_tutorial.multiple_outputs import split_cereals
+from dagster.tutorial.multiple_outputs import split_cereals
 
 from dagster import execute_solid
 

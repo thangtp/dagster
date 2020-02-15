@@ -104,17 +104,17 @@ def test_loader_entrypoint():
     # YAML
     le = LoaderEntrypoint.from_yaml(script_relative_path('repository.yaml'))
     assert isinstance(le.module, types.ModuleType)
-    assert le.module.__name__ == 'dagster_examples.intro_tutorial.repos'
-    assert le.module_name == 'dagster_examples.intro_tutorial.repos'
+    assert le.module.__name__ == 'dagster.tutorial.repos'
+    assert le.module_name == 'dagster.tutorial.repos'
 
     inst = le.perform_load()
     assert isinstance(inst, RepositoryDefinition)
 
 
 def test_repo_entrypoints():
-    module = importlib.import_module('dagster_examples.intro_tutorial.repos')
+    module = importlib.import_module('dagster.tutorial.repos')
 
-    expected = LoaderEntrypoint(module, 'dagster_examples.intro_tutorial.repos', 'define_repo')
+    expected = LoaderEntrypoint(module, 'dagster.tutorial.repos', 'define_repo')
     handle = ExecutionTargetHandle.for_repo_yaml(script_relative_path('repository.yaml'))
     assert handle.entrypoint.module == expected.module
     assert handle.entrypoint.module_name == expected.module_name
@@ -245,7 +245,7 @@ def test_repo_yaml_file_dynamic_load():
 
 def test_repo_module_dynamic_load():
     handle = ExecutionTargetHandle.for_pipeline_module(
-        module_name='dagster_examples.intro_tutorial.repos', fn_name='hello_cereal_pipeline'
+        module_name='dagster.tutorial.repos', fn_name='hello_cereal_pipeline'
     )
     handle = ExecutionTargetHandle.from_dict(handle.to_dict())
     repository = handle.build_repository_definition()
@@ -269,7 +269,7 @@ def test_repo_file_dynamic_load():
 
 def test_repo_module_dynamic_load_from_pipeline():
     handle = ExecutionTargetHandle.for_pipeline_module(
-        module_name='dagster_examples.intro_tutorial.repos', fn_name='hello_cereal_pipeline'
+        module_name='dagster.tutorial.repos', fn_name='hello_cereal_pipeline'
     )
     handle = ExecutionTargetHandle.from_dict(handle.to_dict())
     repository = handle.build_repository_definition()

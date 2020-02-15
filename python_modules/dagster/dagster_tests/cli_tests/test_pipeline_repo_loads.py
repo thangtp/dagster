@@ -111,7 +111,7 @@ def test_pipeline_module():
 
 
 def test_yaml_file():
-    module = importlib.import_module('dagster_examples.intro_tutorial.repos')
+    module = importlib.import_module('dagster.tutorial.repos')
 
     handle = handle_for_pipeline_cli_args(
         {
@@ -124,7 +124,7 @@ def test_yaml_file():
     )
     assert handle.mode == _ExecutionTargetMode.PIPELINE
 
-    expected = LoaderEntrypoint(module, 'dagster_examples.intro_tutorial.repos', 'define_repo')
+    expected = LoaderEntrypoint(module, 'dagster.tutorial.repos', 'define_repo')
     assert handle.entrypoint.module == expected.module
     assert handle.entrypoint.module_name == expected.module_name
 
@@ -158,7 +158,7 @@ def test_load_from_repository_file():
 def test_load_from_repository_module():
     handle = handle_for_pipeline_cli_args(
         {
-            'module_name': 'dagster_examples.intro_tutorial.repos',
+            'module_name': 'dagster.tutorial.repos',
             'pipeline_name': 'hello_cereal_pipeline',
             'fn_name': 'define_repo',
         }
@@ -183,7 +183,7 @@ def test_load_from_pipeline_file():
 
 def test_load_from_pipeline_module():
     handle = handle_for_pipeline_cli_args(
-        {'module_name': 'dagster_examples.intro_tutorial.repos', 'fn_name': 'hello_cereal_pipeline'}
+        {'module_name': 'dagster.tutorial.repos', 'fn_name': 'hello_cereal_pipeline'}
     )
     pipeline = handle.build_pipeline_definition()
 
