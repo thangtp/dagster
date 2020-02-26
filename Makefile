@@ -36,12 +36,12 @@ install_dev_python_modules:
 	pip install apache-airflow \
 				-e python_modules/dagster \
 				-e python_modules/dagster-graphql \
-				-e python_modules/dagster-celery \
 				-e python_modules/dagit \
 				-e python_modules/libraries/dagster-pandas \
 				-e python_modules/dagstermill \
 				-e python_modules/libraries/dagster-aws \
 				-e python_modules/libraries/dagster-bash \
+				-e python_modules/libraries/dagster-celery \
 				-e python_modules/libraries/dagster-cron \
 				-e python_modules/libraries/dagster-datadog \
 				-e python_modules/libraries/dagster-dbt \
@@ -64,13 +64,13 @@ install_dev_python_modules:
 				-r bin/requirements.txt \
 				-r scala_modules/scripts/requirements.txt $(QUIET)
 
-	SLUGIFY_USES_TEXT_UNIDECODE=yes pip install -e python_modules/dagster-airflow $(QUIET)
+	SLUGIFY_USES_TEXT_UNIDECODE=yes pip install -e python_modules/libraries/dagster-airflow $(QUIET)
 
 	# This fails on Python 3.8 because TensorFlow is missing
 	-pip install -e examples[full] $(QUIET)
 
 	# NOTE: This installation will fail for Python 2.7 (Dask doesn't work w/ py27 on macOS)
-	-pip install -e python_modules/dagster-dask $(QUIET)
+	-pip install -e python_modules/libraries/dagster-dask $(QUIET)
 
 	pip install -r .read-the-docs-requirements.txt
 

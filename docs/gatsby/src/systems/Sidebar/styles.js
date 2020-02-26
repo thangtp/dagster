@@ -2,8 +2,8 @@ export const wrapper = opened => ({
   zIndex: opened ? 99 : "auto",
   position: "relative",
   overflowY: "auto",
-  py: 3,
-  px: 4,
+  pl: 4,
+  pr: 0,
   width: 250,
   minHeight: "100vh",
   bg: "sidebar.bg",
@@ -47,8 +47,7 @@ export const content = {
   flexDirection: "column",
   alignItems: "flex-start",
   height: "100%",
-  maxHeight: "100vh",
-  pt: 3
+  maxHeight: "100vh"
 };
 
 export const menu = {

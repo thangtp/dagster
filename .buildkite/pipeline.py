@@ -212,7 +212,7 @@ def airflow_tests():
                 + GCP_CREDS_LOCAL_FILE,
                 "export GOOGLE_APPLICATION_CREDENTIALS=" + GCP_CREDS_LOCAL_FILE,
                 "./.buildkite/scripts/dagster_airflow.sh %s %s" % (version, TOX_MAP[version]),
-                "pushd python_modules/dagster-airflow/",
+                "pushd python_modules/libraries/dagster-airflow/",
                 "mv .coverage {file}".format(file=coverage),
                 "buildkite-agent artifact upload {file}".format(file=coverage),
                 "popd",
@@ -274,7 +274,7 @@ def celery_tests():
             StepBuilder("[dagster-celery] ({ver})".format(ver=TOX_MAP[version]))
             .on_integration_image(version)
             .run(
-                "pushd python_modules/dagster-celery",
+                "pushd python_modules/libraries/dagster-celery",
                 # Run the rabbitmq db. We are in docker running docker
                 # so this will be a sibling container.
                 "docker-compose up -d --remove-orphans",  # clean up in hooks/pre-exit,
@@ -415,14 +415,14 @@ def dask_tests():
         tests.append(
             StepBuilder("dagster-dask tests ({ver})".format(ver=TOX_MAP[version]))
             .run(
-                "pushd python_modules/dagster-dask/dagster_dask_tests/dask-docker",
+                "pushd python_modules/libraries/dagster-dask/dagster_dask_tests/dask-docker",
                 "./build.sh " + version,
                 # Run the docker-compose dask cluster
                 "docker-compose up -d --remove-orphans",  # clean up in hooks/pre-exit
                 network_buildkite_container('dask'),
                 connect_sibling_docker_container('dask', 'dask-scheduler', 'DASK_ADDRESS'),
                 "popd",
-                "pushd python_modules/dagster-dask/",
+                "pushd python_modules/libraries/dagster-dask/",
                 "tox -e {ver}".format(ver=TOX_MAP[version]),
                 "mv .coverage {file}".format(file=coverage),
                 "buildkite-agent artifact upload {file}".format(file=coverage),
@@ -440,14 +440,21 @@ def library_tests():
     library_modules = set(os.listdir(library_path))
 
     tests = []
+
+    # Some libraries have more involved tests, which must be explicitly defined here
+    extra_test_libraries = {
+        'dagster-airflow': airflow_tests(),
+        'dagster-celery': celery_tests(),
+        'dagster-dask': dask_tests(),
+        'dagster-gcp': gcp_tests(),
+        'dagster-k8s': k8s_tests(),
+        'dagster-postgres': dagster_postgres_tests(),
+        'lakehouse': lakehouse_tests(),
+    }
+
     for library in library_modules:
-        if library == 'dagster-k8s':
-            tests += k8s_tests()
-        elif library == 'dagster-gcp':
-            tests += gcp_tests()
-            continue
-        elif library == 'dagster-postgres':
-            tests += dagster_postgres_tests()
+        if library in extra_test_libraries:
+            tests += extra_test_libraries[library]
         else:
             tests += python_modules_tox_tests("libraries/{library}".format(library=library))
 
@@ -484,7 +491,7 @@ def lakehouse_tests():
         tests.append(
             StepBuilder("lakehouse tests ({ver})".format(ver=TOX_MAP[version]))
             .run(
-                "cd python_modules/lakehouse",
+                "cd python_modules/libraries/lakehouse",
                 "tox -vv -e {ver}".format(ver=TOX_MAP[version]),
                 "mv .coverage {file}".format(file=coverage),
                 "buildkite-agent artifact upload {file}".format(file=coverage),
@@ -693,12 +700,7 @@ if __name__ == "__main__":
     steps += events_demo_tests()
     steps += examples_tests()
 
-    steps += airflow_tests()
-    steps += celery_tests()
-    steps += dask_tests()
-
     steps += dagit_tests()
-    steps += lakehouse_tests()
     steps += pipenv_smoke_tests()
 
     steps += python_modules_tox_tests("dagster")

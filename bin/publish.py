@@ -90,22 +90,19 @@ def construct_publish_comands(additional_steps=None, nightly=False):
     return publish_commands
 
 
-# The modules managed by this script
+# The root modules managed by this script
 MODULE_NAMES = [
     'dagster',
     'dagit',
     'dagster-graphql',
     'dagstermill',
-    'dagster-airflow',
-    'dagster-celery',
-    'dagster-dask',
 ]
 
 # Removed hard-coded list in favor of automatic scan of libraries folder
 # List of subdirectories in directory: https://stackoverflow.com/a/973488
 LIBRARY_MODULES = next(os.walk(os.path.join(BASE_PATH, '..', 'python_modules', 'libraries')))[1]
 
-EXPECTED_PYTHON_MODULES = ['automation', 'lakehouse', 'libraries'] + MODULE_NAMES
+EXPECTED_PYTHON_MODULES = ['automation', 'libraries'] + MODULE_NAMES
 
 EXPECTED_LIBRARIES = LIBRARY_MODULES
 
