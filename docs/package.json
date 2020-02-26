@@ -1,0 +1,12 @@
+{
+  "name": "docs",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "puppeteer": "^2.1.1"
+  },
+  "scripts": {
+    "screenshots": "node sections/tutorial/generate_screenshots.js"
+  }
+}

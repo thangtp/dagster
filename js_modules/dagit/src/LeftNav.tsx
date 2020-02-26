@@ -88,7 +88,11 @@ export const LeftNav = () => {
                   e.keyCode === KEYCODE_FOR_1 + i && e.altKey
                 }
               >
-                <Tab to={t.to} className={tab === t.tab ? "active" : ""}>
+                <Tab
+                  to={t.to}
+                  className={tab === t.tab ? "active" : ""}
+                  id={t.tab}
+                >
                   {t.icon}
                   <TabLabel>{t.label}</TabLabel>
                 </Tab>
